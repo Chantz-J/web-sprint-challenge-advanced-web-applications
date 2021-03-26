@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
-
+  const [form, setForm] = useState({username: '', password: ''})
   useEffect(()=>{
     // make a post request to retrieve a token from the api
     // when you have handled the token, navigate to the BubblePage route
   });
+
+  const handleChange = e => {
+    const {name, value, checkbox} = e.target
+    setForm({...form, [name]: value})
+  }
+  const handleSubmit = e => {
+    e.preventDefault()
+  }
   
   const error = "";
   //replace with error state
@@ -18,7 +24,21 @@ const Login = () => {
       <div data-testid="loginForm" className="login-form">
         <h2>Build login form here</h2>
       </div>
-
+      <form>
+        <input 
+        type='text' 
+        name="username" 
+        value={form.username}
+        onChange={handleChange}
+        data-testid="username"/>
+        <input 
+        type='text' 
+        name="password" 
+        value={form.password}
+        onChange={handleChange}
+        data-testid="password"/>
+        <button>Login</button>
+      </form>
       <p data-testid="errorMessage" className="error">{error}</p>
     </div>
   );
