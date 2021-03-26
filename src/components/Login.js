@@ -25,7 +25,7 @@ const Login = () => {
     .post(`/api/login`, form)
     .then(res => {
       console.log(res)
-      localStorage.setItem('token', res.data.payload)
+      localStorage.setItem("token", res.data.payload)
       push('/bubblepage')
     })
     .catch(err => {
