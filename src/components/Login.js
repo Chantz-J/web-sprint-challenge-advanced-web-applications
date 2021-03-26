@@ -1,21 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
+import { useHistory } from 'react-router-dom'
+import { axiosWithAuth } from '../helpers/axiosWithAuth'
+import axios from 'axios'
 
 const Login = () => {
   const [form, setForm] = useState({username: '', password: ''})
+  const [errors, setErrors] = useState('')
   useEffect(()=>{
     // make a post request to retrieve a token from the api
     // when you have handled the token, navigate to the BubblePage route
+    // axiosWithAuth()
+    // This useeffect seems wonky to be honest? It crashes my app, and the handleSubmit functions works just fine??????
   });
 
   const handleChange = e => {
     const {name, value, checkbox} = e.target
     setForm({...form, [name]: value})
   }
+
+  const { push } = useHistory()
   const handleSubmit = e => {
     e.preventDefault()
+    axiosWithAuth() //Sends it with needed headers. Will return token if data matches database.
+    .post(`/api/login`, form)
+    .then(res => {
+      console.log(res)
+      localStorage.setItem('token', res.data.payload)
+      push('/bubblepage')
+    })
+    .catch(err => {
+      setErrors('Username or Password is invalid. Please try again.')
+      console.error(`There was a problem with your login information: ${err}`)
+    })
   }
   
-  const error = "";
+  const error = errors;
   //replace with error state
 
   return (
@@ -24,7 +43,7 @@ const Login = () => {
       <div data-testid="loginForm" className="login-form">
         <h2>Build login form here</h2>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input 
         type='text' 
         name="username" 
