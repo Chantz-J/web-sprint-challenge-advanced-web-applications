@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault()
     axiosWithAuth() //Sends it with needed headers. Will return token if data matches database.
-    .post(`/api/login`, form)
+    .post('/login', form)
     .then(res => {
       console.log(res)
       localStorage.setItem("token", res.data.payload)

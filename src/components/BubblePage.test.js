@@ -1,13 +1,34 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import BubblePage from "./BubblePage";
+import { axiosWithAuth } from '../helpers/axiosWithAuth'
 
-test("Renders BubblePage without errors", () => {
-  // Finish this test
-});
 
-test("Fetches data and renders the bubbles on mounting", () => {
+const colorsFetchTest = () => {
+  axiosWithAuth()
+    .get('/colors')
+    .then((res) => {
+      console.log(res);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+      return err.message;
+    });
+}; 
+
+test("Renders BubblePage without errors", async () => {
   // Finish this test
+  await mockFetchColors.mockResolvedValueOnce(colors);
+  render(<BubblePage />);
+})
+
+test("Fetches data and renders the bubbles on mounting", async () => {
+  // Finish this test
+  colorsFetchTest();
+  render(<BubblePage />);
+  let colorAPI = await screen.findByText(/bubbles/i);
+  expect(colorAPI).toBeInTheDocument();
 });
 
 //Task List
